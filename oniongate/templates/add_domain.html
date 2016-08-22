@@ -1,0 +1,53 @@
+{% extends "base_internal.html" %}
+
+{% block title %}Add a domain{% endblock %}
+
+{% block content %}
+<p>There are a few ways to add a public domain for your onion service. All methods require that you make some changes to your onion service server configuration.</p>
+
+<h3>Create a sub-domain</h3>
+
+<p>The easiest option is to create a new subdomain for your onion service.</p>
+
+<form class="form" id="subdomain-signup-form">
+<div class="alert alert-success form-success-alert " role="alert"><strong>Success!</strong> Your subdomain has been created. Find out how to <a class="alert-link" href="#">configure your onion service.</a></div>
+  <div class="form-group domain_name_group">
+    <label class="control-label sr-only" for="subdomain">Subdomain</label>
+    <div class="input-group col-sm-8">
+    <div class="input-group-addon">https://</div>
+      <input class="form-control" id="domain_name" name="domain_name" type="text" placeholder="Subdomain">
+      <div class="input-group-addon">.oniongate.com</div>
+    </div>
+    <span class='help-block domain_name_help'></span>
+  </div>
+
+  <div class="form-group onion_address_group">
+    <label class="control-label sr-only" for="onion_address">Onion Address</label>
+    <div class="input-group col-sm-8">
+      <input class="form-control" id="onion_address" name="onion_address" type="text" placeholder="Onion Address">
+      <div class="input-group-addon">.onion</div>
+    </div>
+    <span class='help-block onion_address_help'></span>
+  </div>
+
+  <div class="form-group">
+<!--     <div class="col-sm-8"> -->
+      <div class="checkbox">
+        <label><input name="public" type="checkbox" value="false">Do not list publicly</label>
+      </div>
+<!--     </div> -->
+  </div>
+  <div class="form-group">
+    <input class="btn btn-md btn-primary" type="submit" value="Register">
+  </div>
+</form>
+
+<hr />
+
+<h3>Configure your own domain</h3>
+
+<p>If you already have a domain name you can configure that too, but it will require to make some changes to your DNS server configuration.</p>
+
+<p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.</p>
+<p>Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
+{% endblock %}

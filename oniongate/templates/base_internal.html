@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <header class="header">
+    <h1 class="masthead"><a href="{{ url_for('main.home') }}">OnionGate</a></h1>
+    </header>
+    <div class="row add-domain-page">
+        <div class="col-sm-8">
+            {% block content %}{% endblock %}
+        </div>
+        <div class="col-sm-4 sidebar-menu">
+
+            {% include "documentation-menu.html" %}
+
+            <h3>Contribute</h3>
+            <ul>
+                <li>Help by running an entry proxy</li>
+                <li>Run your own DNS provider</li>
+                <li>Tweet about us</li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OnionGate - {% block title %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- stylesheets -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootswatch.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+    <!-- scripts -->
+    <script src="{{ url_for('static', filename='js/jquery-2.2.4.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script type=text/javascript>
+        $API_ROOT = '/api/v1';
+    </script>
+  </head>
+  <body>
+    <div class="container">
+        {% block body %}
+        {% endblock %}
+        <footer class="footer">
+            <p>Powered by <a href="https://github.com/DonnchaC/oniongate-web">OnionGate</a> - <a href="mailto:info@oniongate.com">info@oniongate.com</a></p>
+        </footer>
+    </div>
+  </body>
+</html>
+
