@@ -9,7 +9,7 @@ class Proxy(db.Model, mixins.CRUDMixin):
     __tablename__ = 'proxies'
 
     ip_address = db.Column(db.String(100), unique=True, nullable=False)
-    ip_type =  db.Column(db.Enum('4', '6'), nullable=False)
+    ip_type = db.Column(db.Enum('4', '6'), nullable=False)
 
     date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 

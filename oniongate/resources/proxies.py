@@ -46,7 +46,7 @@ class Proxies(Resource):
 
         try:
             proxy = Proxy.create(ip_address=str(ip_address),
-                                 ip_type=ip_address.version)
+                                 ip_type=str(ip_address.version))
         except exc.IntegrityError:
             return abort(422, message="Proxy {} already exists".format(str(ip_address)))
 
