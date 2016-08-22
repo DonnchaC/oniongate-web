@@ -24,7 +24,7 @@ def create_app(object_name):
     # Create zone file directory if it doesn't exist
     zone_directory = app.config.get('zone_dir') or os.path.join(app.instance_path, 'zones')
     if not os.path.isdir(zone_directory):
-        os.makedirs(zone_directory, 644)
+        os.makedirs(zone_directory, 0644)
     app.config["zone_dir"] = zone_directory
 
     api_bp = Blueprint('api', __name__)
