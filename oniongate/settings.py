@@ -36,7 +36,8 @@ class Config(object):
 
 class ProdConfig(Config):
     ENV = 'prod'
-    SECRET_KEY = os.environ.get('ANONSMS_SECRET_KEY')
+    SECRET_KEY = os.environ.get('ONIONGATE_SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = 'mysql://user:password@host/database'
 
 
 class DevConfig(Config):

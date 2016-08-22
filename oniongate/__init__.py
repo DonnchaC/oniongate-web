@@ -17,8 +17,9 @@ def create_app(object_name):
                  e.g. oniongate.settings.ProdConfig
     """
 
-    app = Flask(__name__)
+    app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(object_name)
+    app.config.from_pyfile("config.py")
 
     # Create zone file directory if it doesn't exist
     zone_directory = app.config.get('zone_dir') or os.path.join(app.instance_path, 'zones')
