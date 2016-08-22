@@ -5,7 +5,7 @@ import os
 import time
 
 from flask import current_app, render_template_string, Markup
-import zone_file
+from blockstack_zones import parse_zone_file, make_zone_file
 
 from .models import Domain, Proxy
 
@@ -67,7 +67,7 @@ def generate_zone_file(zone_name):
     """
     # Load the base records for the zone from a static zone file
     zone_base = build_zone_base_template(zone_name)
-    records = zone_file.parse_zone_file(zone_base)
+    records = parse_zone_file(zone_base)
 
     # Check if we are generating the zone that returns proxy A records
     proxy_domain = current_app.config["PROXY_ZONE"]
@@ -105,4 +105,4 @@ def generate_zone_file(zone_name):
     # Bump the serial number in the SOA
     records["soa"]["serial"] = int(time.time())
 
-    return zone_file.make_zone_file(records)
+    return make_zone_file(records)
