@@ -19,12 +19,15 @@ def create_app(object_name):
 
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(object_name)
-    app.config.from_pyfile("config.py")
+    try:
+        app.config.from_pyfile("config.py")
+    except FileNotFoundError:
+        pass
 
     # Create zone file directory if it doesn't exist
     zone_directory = app.config.get('zone_dir') or os.path.join(app.instance_path, 'zones')
     if not os.path.isdir(zone_directory):
-        os.makedirs(zone_directory, 0644)
+        os.makedirs(zone_directory)
     app.config["zone_dir"] = zone_directory
 
     api_bp = Blueprint('api', __name__)

@@ -1,7 +1,6 @@
 from collections import OrderedDict
 
-from flask import current_app
-from flask_restful import fields, inputs, marshal_with, reqparse, Resource, abort
+from flask_restful import fields, marshal_with, reqparse, Resource, abort
 from sqlalchemy import exc
 
 from .. import validators
