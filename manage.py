@@ -6,6 +6,7 @@ from flask_script.commands import ShowUrls, Clean
 
 from oniongate import create_app
 from oniongate.models import *
+from oniongate.dns import generate_zone_file
 
 # default to dev config
 env = os.environ.get('ONIONGATE_ENV', 'dev')
@@ -33,6 +34,14 @@ def createdb():
     your SQLAlchemy models.
     """
     db.create_all()
+
+
+@manager.command
+def create_zone(zone_name):
+    """
+    Create a BIND-style zone file with all records for a domain
+    """
+    print(generate_zone_file(zone_name))
 
 
 if __name__ == "__main__":
