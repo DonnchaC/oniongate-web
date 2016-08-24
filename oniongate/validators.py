@@ -7,20 +7,11 @@ import ipaddress
 from flask import current_app
 
 
-def onion_address(onion_address_str):
+def is_onion_address(onion_address):
     """
-    Return onion_address_str if valid, raise an exception in other case.
+    Return onion_address if valid, otherwise return false.
     """
-    if not onion_address_str:
-        raise ValueError("You must specify an onion address")
-
-    if not onion_address_str.endswith(".onion"):
-        onion_address_str += ".onion"
-
-    if re.match(r"^[a-z0-9]{16}.onion$", onion_address_str):
-        return onion_address_str
-    else:
-        raise ValueError("{} is not a valid onion address".format(onion_address_str))
+    return re.match(r"^[a-z0-9]{16}.onion$", onion_address) is not None
 
 
 def label(label):

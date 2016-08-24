@@ -17,7 +17,7 @@ class Domain(db.Model, mixins.CRUDMixin):
 
     domain_name = db.Column(db.String(256), unique=True, index=True)
     zone = db.Column(db.String(256), nullable=False, index=True)
-    onion_address = db.Column(db.String(80), nullable=False)
+    onion_address = db.Column(db.String(80))
 
     # Should this domain be publically listed in the onion service index.
     public = db.Column(db.Boolean, default=True)

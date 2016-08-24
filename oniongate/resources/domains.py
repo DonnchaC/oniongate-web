@@ -18,9 +18,6 @@ new_domain_parser.add_argument(
     'domain_name', type=validators.domain_name, required=True, location='json',
 )
 new_domain_parser.add_argument(
-    'onion_address', type=validators.onion_address, required=True, location='json',
-)
-new_domain_parser.add_argument(
     'public', type=inputs.boolean, default=True,
 )
 
@@ -54,7 +51,7 @@ class Domains(Resource):
         Return a listing of all public domains resolved by this resolver
         """
         if domain_name:
-            # Marshal the individual domain with its DNS records
+            # Include DNS records when an individual domain is requested
             return marshal(Domain.get_or_404(domain_name), domain_fields_with_records), 200
 
         all_domains = Domain.query.filter_by(public=True, deleted=False).all()
@@ -63,7 +60,7 @@ class Domains(Resource):
     @marshal_with(domain_fields_with_token)
     def post(self):
         """
-        Create a new domain->onion address mapping
+        Register a new domain name on this resolver.
 
         Returns a serialization which includes a JSON Web Token which can be used to authorize
         updates to this domain mapping in future.
@@ -73,7 +70,6 @@ class Domains(Resource):
         try:
             domain = Domain.create(domain_name=domain_name,
                                    zone=args.domain_name["zone"],
-                                   onion_address=args.onion_address,
                                    public=args.public)
         except exc.IntegrityError:
             return abort(422,
@@ -81,28 +77,10 @@ class Domains(Resource):
 
         return domain
 
-    @marshal_with(domain_fields)
-    @auth_domain
-    def patch(self, domain_name):
-        """
-        Allow updates to the domain->onion address mapping
-        """
-        domain = Domain.get_or_404(domain_name)
-        args = update_domain_parser.parse_args()
-
-        # Mark as updated if it had aleady been updated or if the address has changed
-        updated = domain.updated_since_synced or (domain.onion_address != args.onion_address)
-
-        domain.update(onion_address=args.onion_address,
-                      public=args.public,
-                      date_updated=datetime.datetime.utcnow(),
-                      updated_since_synced=updated)
-        return domain
-
     @auth_domain
     def delete(self, domain_name):
         """
-        Allow updates to the domain -> onion address mapping
+        Allow the registered domain name to be deleted
         """
         domain = Domain.get_or_404(domain_name)
         domain.update(deleted=True,
