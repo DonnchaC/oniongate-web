@@ -16,6 +16,8 @@ class Config(object):
     TXT_RECORD_TTL = 3600
     USE_ALIAS_RECORDS = False
 
+    MAX_RECORDS = 20
+
     # The label which holds the A and AAAA records point to the online proxies
     PROXY_ZONE = "proxy.oniongate.com"
 
@@ -32,6 +34,11 @@ class Config(object):
     # Only allow registration of subdomains for now to prevent
     # potential security issues.
     FQDN_REGISTRATION_CLOSED = True
+
+    # Restrict DNS record to a set of allowed types
+    ALLOWED_DNS_RECORD_TYPES = [
+        "TXT",
+    ]
 
 
 class ProdConfig(Config):

@@ -75,7 +75,7 @@ class Domains(Resource):
         return domain
 
     @marshal_with(domain_fields)
-    @auth_domain()
+    @auth_domain
     def patch(self, domain_name):
         """
         Allow updates to the domain->onion address mapping
@@ -92,7 +92,7 @@ class Domains(Resource):
                       updated_since_synced=updated)
         return domain
 
-    @auth_domain()
+    @auth_domain
     def delete(self, domain_name):
         """
         Allow updates to the domain -> onion address mapping

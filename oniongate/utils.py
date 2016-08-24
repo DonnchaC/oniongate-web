@@ -1,8 +1,9 @@
 from functools import wraps
 
-from flask import current_app, request
+from flask import current_app, request, g
 from flask_restful import abort
 from itsdangerous import JSONWebSignatureSerializer, BadSignature
+
 
 def create_jwt(payload):
     """
@@ -46,17 +47,26 @@ def jwt_domain():
         abort(401, message='Invalid authorization token')
     return payload['domain']
 
-def auth_domain():
+def auth_domain(fn):
     """
     Verify the user is trying to update the domain authorized in the JWT
     """
-    def wrapper(fn):
-        @wraps(fn)
-        def decorator(*args, **kwargs):
-            authorized_domain = jwt_domain()
-            if request.view_args.get('domain_name', '').lower() != authorized_domain:
-                abort(401, message='Your update token is not valid for this domain')
-            return fn(*args, **kwargs)
-        return decorator
-    return wrapper
+    @wraps(fn)
+    def decorator(*args, **kwargs):
+        authorized_domain = jwt_domain()
+        if request.view_args.get('domain_name', '').lower() != authorized_domain:
+            abort(401, message='Your update token is not valid for this domain')
+        return fn(*args, **kwargs)
+    return decorator
+
+def domain_exists(fn):
+    """
+    Verify the requested domain exists and is not marked as deleted
+    """
+    @wraps(fn)
+    def decorator(*args, **kwargs):
+        from .models import Domain
+        g.domain = Domain.get_or_404(request.view_args.get('domain_name'))
+        return fn(*args, **kwargs)
+    return decorator
 

@@ -23,6 +23,23 @@ def onion_address(onion_address_str):
         raise ValueError("{} is not a valid onion address".format(onion_address_str))
 
 
+def label(label):
+    """Validate a DNS label"""
+    if not is_valid_label(label):
+        raise ValueError("{} is not a valid DNS label".format(label))
+    return label
+
+
+def is_valid_label(label, hostname=False):
+    """
+    Validate a DNS label
+    """
+    regex = "(?!-)[A-Z\d\-\_]{1,63}(?<!-)$"
+    if hostname:
+        regex = regex.replace("\_", "") # Underscores are not allowed in hostnames
+    return re.compile(regex, re.IGNORECASE).match(label) is not None
+
+
 def is_valid_hostname(hostname):
     """
     Check if a hostname is valid and is not an IP address.
@@ -34,9 +51,7 @@ def is_valid_hostname(hostname):
     if re.match(r"[\d.]+$", hostname):
         return False
 
-    allowed = re.compile("(?!-)[A-Z\d-]{1,63}(?<!-)$", re.IGNORECASE)
-    return all(allowed.match(x) for x in hostname.split("."))
-
+    return all(is_valid_label(x, hostname=True) for x in hostname.split("."))
 
 def domain_name(domain_name_str):
     """
@@ -109,3 +124,18 @@ def ip_address(ip_address_str):
     if ip.is_private:
         raise ValueError("Only public IP addresses are valid")
     return ip
+
+
+def allowed_dns_record_type(record_type):
+    """
+    Validate that a valid and enabled DNS record type was provided.
+    """
+    record_type = record_type.strip().upper()
+    allowed_types = current_app.config["ALLOWED_DNS_RECORD_TYPES"]
+
+    if record_type not in allowed_types:
+        raise ValueError(
+            "{} is not an allowed DNS record type. Only types {} are "
+             "allowed".format(record_type, ", ".join(allowed_types))
+        )
+    return record_type

@@ -36,8 +36,13 @@ class Domain(db.Model, mixins.CRUDMixin):
     # Indicate domain is flagged for deletion before it is removed from DNS
     deleted = db.Column(db.Boolean, default=False)
 
+    records = db.relationship("Record", back_populates="domain", cascade="all, delete-orphan")
+
     def __repr__(self):
         return '<Domain %r>' % self.domain_name
+
+    def __str__(self):
+        return self.domain_name
 
     @hybrid_property
     def subdomain(self):

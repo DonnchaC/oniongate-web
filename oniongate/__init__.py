@@ -5,7 +5,7 @@ from flask_restful import Api
 from flask_cors import CORS
 
 from .models import db
-from .resources import Domains, Proxies
+from .resources import Domains, Records, Proxies
 from .main import main_bp
 
 
@@ -41,6 +41,7 @@ def create_app(object_name):
     app.register_blueprint(api_bp, url_prefix='/api/v1')
 
     api.add_resource(Domains, '/domains', '/domains/<domain_name>')
+    api.add_resource(Records, '/records/<domain_name>', '/records/<domain_name>/<record_id>')
     api.add_resource(Proxies, '/proxies', '/proxies/<ip_address>')
 
     return app
