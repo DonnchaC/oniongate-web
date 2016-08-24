@@ -1,6 +1,7 @@
 """
 Record resource presented on the API interface
 """
+import datetime
 from collections import OrderedDict
 
 from flask import g, current_app
@@ -86,7 +87,9 @@ class Records(Resource):
         # onion=theonionaddress.onion type TXT record
         if probable_onion_mapping:
             # Update the convenience onion_address wrapper on the domain
-            g.domain.update(onion_address=probable_onion_mapping)
+            g.domain.update(onion_address=probable_onion_mapping,
+                            date_updated=datetime.datetime.utcnow(),
+                            updated_since_synced=True)
 
         return record
 
@@ -105,7 +108,9 @@ class Records(Resource):
                                       record_type="TXT",
                                       value=record.value).count() == 1:
                 # Last mapping with this onion address, remove onion address from the domain
-                g.domain.update(onion_address=None)
+                g.domain.update(onion_address=None,
+                                date_updated=datetime.datetime.utcnow(),
+                                updated_since_synced=True)
 
         record.delete()
         return {"message": "Record has been deleted"}
