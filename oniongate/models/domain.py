@@ -31,7 +31,7 @@ class Domain(db.Model, mixins.CRUDMixin):
     # We default to True so that the service is assumed up until we can
     # scan it and determine that it it down. We want users to be able
     # to access services ASAP, before we have time to scan them.
-    service_online = db.Column(db.Boolean, default=True)
+    service_online = db.Column(db.Boolean, default=False)
 
     # Indicate domain is flagged for deletion before it is removed from DNS
     deleted = db.Column(db.Boolean, default=False)
@@ -66,6 +66,15 @@ class Domain(db.Model, mixins.CRUDMixin):
         Generate a JWT for authenticate future requests to edit this domain
         """
         return utils.create_jwt({'domain': self.domain_name}).decode('utf-8')
+
+    def recent_public_domains(limit=10):
+        """
+        Return the recent public domains
+        """
+        return Domain.query.filter(Domain.onion_address != None,
+                                   Domain.public == True,
+                                   Domain.deleted == False).\
+            order_by(Domain.date_created).limit(limit).all()
 
     def get_or_404(domain_name):
         """

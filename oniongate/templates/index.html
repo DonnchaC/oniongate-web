@@ -19,49 +19,21 @@
                         <td>Date Added</td>
                     </tr>
                 </thead>
+                {% for domain in recent_domains %}
                 <tr>
-                    <td><a href="https://facebook.oniongate.com">https://facebook.oniongate.com</a></td>
-                    <td><a href="http://facebookcorewwwi.onion">facebookcorewwwi.onion</a></td>
-                    <td><date date="6th June 2015, 10:10:45 AM">6 minutes ago</date></td>
+                    <td><a href="https://{{ domain.domain_name }}">https://{{ domain.domain_name }}</a></td>
+                    <td><a href="http://{{ domain.onion_address }}">{{ domain.onion_address }}</a></td>
+                    <td><time datetime="{{ domain.date_created }}">{{ domain.date_created | naturaltime }}</time></td>
                 </tr>
+                {% else %}
                 <tr>
-                    <td><a href="https://facebook.oniongate.com">https://facebook.oniongate.com</a></td>
-                    <td><a href="http://facebookcorewwwi.onion">facebookcorewwwi.onion</a></td>
-                    <td><date date="6th June 2015, 10:10:45 AM">6 minutes ago</date></td>
+                    <td class="text-center" colspan="3">
+                    No domains
+                    </td>
                 </tr>
-                <tr>
-                    <td><a href="https://facebook.oniongate.com">https://facebook.oniongate.com</a></td>
-                    <td><a href="http://facebookcorewwwi.onion">facebookcorewwwi.onion</a></td>
-                    <td><date date="6th June 2015, 10:10:45 AM">6 minutes ago</date></td>
-                </tr>
-                <tr>
-                    <td><a href="https://facebook.oniongate.com">https://facebook.oniongate.com</a></td>
-                    <td><a href="http://facebookcorewwwi.onion">facebookcorewwwi.onion</a></td>
-                    <td><date date="6th June 2015, 10:10:45 AM">6 minutes ago</date></td>
-                </tr>
-                <tr>
-                    <td><a href="https://facebook.oniongate.com">https://facebook.oniongate.com</a></td>
-                    <td><a href="http://facebookcorewwwi.onion">facebookcorewwwi.onion</a></td>
-                    <td><date date="6th June 2015, 10:10:45 AM">6 minutes ago</date></td>
-                </tr>
-                <tr>
-                    <td><a href="https://facebook.oniongate.com">https://facebook.oniongate.com</a></td>
-                    <td><a href="http://facebookcorewwwi.onion">facebookcorewwwi.onion</a></td>
-                    <td><date date="6th June 2015, 10:10:45 AM">6 minutes ago</date></td>
-                </tr>
-                <tr>
-                    <td><a href="https://facebook.oniongate.com">https://facebook.oniongate.com</a></td>
-                    <td><a href="http://facebookcorewwwi.onion">facebookcorewwwi.onion</a></td>
-                    <td><date date="6th June 2015, 10:10:45 AM">6 minutes ago</date></td>
-                </tr>
-                <tr>
-                    <td><a href="https://facebook.oniongate.com">https://facebook.oniongate.com</a></td>
-                    <td><a href="http://facebookcorewwwi.onion">facebookcorewwwi.onion</a></td>
-                    <td><date date="6th June 2015, 10:10:45 AM">6 minutes ago</date></td>
-                </tr>
+                {% endfor %}
             </table>
-
-            <a class="btn btn-primary btn-sm" href="#">View all</a>
+            {% if recent_domains %}<a class="btn btn-primary btn-sm" href="#">View all</a>{% endif %}
         </div>
         <div class="col-sm-4 sidebar-menu">
 
@@ -70,14 +42,14 @@
 
                 <h4>Services:</h4>
                 <ul>
-                    <li><strong>1200 domains</strong> issued</li>
-                    <li>40% reachable in past 24 hours</li>
+                    <li><strong>{{ num_domains_issued }} domains</strong> issued</li>
+                    <li>{{ '{:.2%}'.format(percent_online_domains) }} reachable in past 24 hours</li>
                 </ul>
 
                 <h4>Entry Proxies</h4>
                 <ul>
                     <li><strong>108 public</strong> entry proxies</li>
-                    <li>73% currently available</li>
+                    <li>{{ '{:.2%}'.format(percent_online_proxies) }} currently available</li>
                 </ul>
             </div>
 

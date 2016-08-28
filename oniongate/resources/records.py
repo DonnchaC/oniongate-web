@@ -89,6 +89,7 @@ class Records(Resource):
             # Update the convenience onion_address wrapper on the domain
             g.domain.update(onion_address=probable_onion_mapping,
                             date_updated=datetime.datetime.utcnow(),
+                            service_online=True,
                             updated_since_synced=True)
 
         return record
@@ -110,6 +111,7 @@ class Records(Resource):
                 # Last mapping with this onion address, remove onion address from the domain
                 g.domain.update(onion_address=None,
                                 date_updated=datetime.datetime.utcnow(),
+                                service_online=False,
                                 updated_since_synced=True)
 
         record.delete()

@@ -3,6 +3,7 @@ import os
 from flask import Flask, Blueprint
 from flask_restful import Api
 from flask_cors import CORS
+import humanize
 
 from .models import db
 from .resources import Domains, Records, Proxies
@@ -43,5 +44,7 @@ def create_app(object_name):
     api.add_resource(Domains, '/domains', '/domains/<domain_name>')
     api.add_resource(Records, '/records/<domain_name>', '/records/<domain_name>/<record_id>')
     api.add_resource(Proxies, '/proxies', '/proxies/<ip_address>')
+
+    app.jinja_env.filters['naturaltime'] = humanize.naturaltime
 
     return app
